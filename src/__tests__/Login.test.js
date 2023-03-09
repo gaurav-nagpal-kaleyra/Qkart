@@ -1,3 +1,4 @@
+
 import "@testing-library/jest-dom/extend-expect";
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -73,7 +74,7 @@ describe("Login Page", () => {
     expect(logo).toBeInTheDocument();
   });
 
-  //Header has back to explore button
+ // Header has back to explore button
   it("should have header with back to explore button", () => {
     // Matches by <button> with text "Back To Explore" - case insensitive
     const exploreButton = screen.getByRole("button", {

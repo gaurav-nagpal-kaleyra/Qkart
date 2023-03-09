@@ -259,7 +259,7 @@ describe("Register Page", () => {
   });
 
   it("'back to explore' button on Header should route to products", async () => {
-    const exploreButton = screen.getByRole("button", {
+    const exploreButton = await screen.getByRole("button", {
       name: /back to explore/i,
     });
     userEvent.click(exploreButton);

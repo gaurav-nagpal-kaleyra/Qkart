@@ -7,19 +7,16 @@ import { config } from "../App";
 import Footer from "./Footer";
 import Header from "./Header";
 import "./Register.css";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, Link,useLocation } from "react-router-dom";
 const Register = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const history = useHistory();
+  const location = useLocation();
   // TODO: CRIO_TASK_MODULE_REGISTER - Implement the register function
-
-
-const Register = () => {
-  const { enqueueSnackbar } = useSnackbar();
 
 
   /**
@@ -66,6 +63,7 @@ const Register = () => {
             autoHideDuration: 2000,
           });
           setLoading(false);
+          history.push("/login", { from: "Register" })
         })
         .catch((error) => {
           if (error.response) {
@@ -155,12 +153,12 @@ const Register = () => {
     <Box
       display="flex"
       flexDirection="column"
-      justifyContent="space-between"
+      
       minHeight="100vh"
     >
-      <Header hasHiddenAuthButtons />
+      <Header hasHiddenAuthButtons={true} />
       <Box className="content">
-        <Stack spacing={2} className="form">
+        <Stack spacing={1} className="form">
           <h2 className="title">Register</h2>
           <TextField
             id="username"
@@ -207,9 +205,9 @@ const Register = () => {
           </Box>
           <p className="secondary-action">
             Already have an account?
-            <a className="link" href="#">
+           <Link to="/login" className="link">
               Login here
-            </a>
+            </Link>
           </p>
         </Stack>
       </Box>
@@ -218,5 +216,5 @@ const Register = () => {
   );
 };
 
-}
+
 export default Register;

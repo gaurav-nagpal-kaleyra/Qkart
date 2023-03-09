@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import React, { useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, Link, useLocation } from "react-router-dom";
 import { config } from "../App";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -11,7 +11,12 @@ import "./Login.css";
 
 const Login = () => {
   const { enqueueSnackbar } = useSnackbar();
-
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
+  const location = useLocation();
+  
   // TODO: CRIO_TASK_MODULE_LOGIN - Fetch the API response
   /**
    * Perform the Login API call
@@ -37,7 +42,41 @@ const Login = () => {
    * }
    *
    */
-  const login = async (formData) => {
+  const login = async () => {
+    // making post request with axios
+    const formData = { username: username, password: password };
+    if (validateInput(formData)) {
+      const url = config.endpoint + "/auth/login";
+      setLoading(true);
+      axios
+        .post(url, formData)
+        .then((res) => {
+          enqueueSnackbar("Logged in successfully", {
+            variant: "success",
+            autoHideDuration: 2000,
+          });
+         
+          persistLogin(res.data.token, res.data.username, res.data.balance);
+          setLoading(false);
+          history.push("/", { from: "Register" });
+        })
+        .catch((error) => {
+          if (error.response) {
+            if (error.response.status === 400) {
+              enqueueSnackbar(error.response.data.message, {
+                variant: "error",
+                autoHideDuration: 2000,
+              });
+            }
+          } else {
+            enqueueSnackbar(
+              "Something went wrong. Check that the backend is running, reachable and returns valid JSON.",
+              { variant: "error", autoHideDuration: 2000 }
+            );
+          }
+          setLoading(false);
+        });
+    }
   };
 
   // TODO: CRIO_TASK_MODULE_LOGIN - Validate the input
@@ -56,6 +95,21 @@ const Login = () => {
    * -    Check that password field is not an empty value - "Password is a required field"
    */
   const validateInput = (data) => {
+    if (data.username === "") {
+      enqueueSnackbar("Username is a required field", {
+        variant: "warning",
+        autoHideDuration: 2000,
+      });
+      return false;
+    } else if (data.password === "") {
+      enqueueSnackbar("Password is a required field", {
+        variant: "warning",
+        autoHideDuration: 2000,
+      });
+      return false;
+    } else {
+      return true;
+    }
   };
 
   // TODO: CRIO_TASK_MODULE_LOGIN - Persist user's login information
@@ -75,8 +129,12 @@ const Login = () => {
    * -    `balance` field in localStorage can be used to store the balance amount in the user's wallet
    */
   const persistLogin = (token, username, balance) => {
+    
+    localStorage.setItem("username", username);
+    localStorage.setItem("token",token);
+    localStorage.setItem("balance", balance);
   };
-
+  
   return (
     <Box
       display="flex"
@@ -84,9 +142,40 @@ const Login = () => {
       justifyContent="space-between"
       minHeight="100vh"
     >
-      <Header hasHiddenAuthButtons />
+      <Header hasHiddenAuthButtons={true} />
+
       <Box className="content">
         <Stack spacing={2} className="form">
+          <h2 className="title">Login</h2>
+          <TextField
+            label="username"
+            variant="outlined"
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+            
+          />
+          <TextField
+            label="password"
+            variant="outlined"
+            type="password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            
+          />
+          <Button variant="contained" className="button" onClick={login}>
+            Login to Qkart
+          </Button>
+          <Box className="circular">
+            {loading ? <CircularProgress color="success" /> : " "}
+          </Box>
+          <p>
+            Don’t have an account?{" "}
+            <Link to="/register" className="link">
+              Register Now
+            </Link>
+          </p>
         </Stack>
       </Box>
       <Footer />
