@@ -1,4 +1,5 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+<<<<<<< HEAD
 import { Avatar, Button, Stack, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import React from "react";
@@ -61,10 +62,23 @@ const Header = (hasHiddenAuthButtons) => {
       <Box className="header">
         <Box className="header-title">
           <img src="logo_light.svg" alt="QKart-icon"></img>
+=======
+import { Avatar, Button, Stack } from "@mui/material";
+import Box from "@mui/material/Box";
+import React from "react";
+import "./Header.css";
+
+const Header = ({ children, hasHiddenAuthButtons }) => {
+    return (
+      <Box className="header">
+        <Box className="header-title">
+            <img src="logo_light.svg" alt="QKart-icon"></img>
+>>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
         </Box>
         <Button
           className="explore-button"
           startIcon={<ArrowBackIcon />}
+<<<<<<< HEAD
           // variant="text"
           onClick={() => history.push("/")}
         >
@@ -83,6 +97,14 @@ const Header = (hasHiddenAuthButtons) => {
  }else{
   return <HeaderForProductLogOut/>
  }
+=======
+          variant="text"
+        >
+          Back to explore
+        </Button>
+      </Box>
+    );
+>>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
 };
 
 export default Header;

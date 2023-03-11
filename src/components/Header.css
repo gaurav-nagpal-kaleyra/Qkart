@@ -12,13 +12,20 @@
     display: none;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
 .header-title {
     cursor: pointer;
 }
 
 .explore-button {
+<<<<<<< HEAD
     color: #00a278 ;
+=======
+    color: #00a278 !important;
+>>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
 }
 
 @media screen and (min-width: 768px) {
