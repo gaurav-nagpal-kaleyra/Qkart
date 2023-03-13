@@ -1,9 +1,14 @@
-import { Search, SentimentDissatisfied } from "@mui/icons-material";
+import {
+  ContactPageSharp,
+  Search,
+  SentimentDissatisfied,
+} from "@mui/icons-material";
 import {
   CircularProgress,
   Grid,
   InputAdornment,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
@@ -13,30 +18,11 @@ import { config } from "../App";
 import Footer from "./Footer";
 import Header from "./Header";
 import "./Products.css";
-
-<<<<<<< HEAD
-const Products = () => {
-  
-  //1 - hasHdden
-  return (
-    <div>
-      <Header hasHiddenAuthButtons = {false}  /> 
-
-      <Grid container>
-        <Grid item className="product-grid">
-          <Box className="hero">
-            <p className="hero-heading">
-              India’s <span className="hero-highlight">FASTEST DELIVERY</span>
-              to your door step
-            </p>
-          </Box>
-        </Grid>
-      </Grid>
-=======
+import ProductCard from "./ProductCard";
 // Definition of Data Structures used
 /**
  * @typedef {Object} Product - Data on product available to buy
- * 
+ *
  * @property {string} name - The name or title of the product
  * @property {string} category - The category that the product belongs to
  * @property {number} cost - The price to buy the product
@@ -45,9 +31,10 @@ const Products = () => {
  * @property {string} _id - Unique ID for the product
  */
 
-
 const Products = () => {
-
+  const [loading, setLoading] = useState(true);
+  const [productsList, setProductsList] = useState([]);
+  const enqueueSnackbar = useSnackbar();
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Fetch products data and store it
   /**
    * Make API call to get the products list and store it to display the products
@@ -86,6 +73,21 @@ const Products = () => {
    * }
    */
   const performAPICall = async () => {
+    const url = config.endpoint + "/products";
+
+    await axios
+      .get(url)
+      .then((res) => {
+        setProductsList(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        enqueueSnackbar(
+          "Something went wrong. Check that the backend is running, reachable and returns valid JSON.",
+          { variant: "error", autoHideDuration: 2000 }
+        );
+        setLoading(false);
+      });
   };
 
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Implement search logic
@@ -103,6 +105,21 @@ const Products = () => {
    *
    */
   const performSearch = async (text) => {
+    const url = `${config.endpoint}/products/search?value=${text}`;
+
+    await axios
+      .get(url)
+      .then((res) => {
+        setProductsList(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          setProductsList([]);
+        }
+        // console.log(err.response.status);
+        setLoading(false);
+      });
   };
 
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Optimise API calls with debounce search implementation
@@ -117,21 +134,23 @@ const Products = () => {
    *    Timer id set for the previous debounce call
    *
    */
+
   const debounceSearch = (event, debounceTimeout) => {
+    setTimeout(() => {
+      performSearch(event.target.value);
+    }, debounceTimeout);
   };
 
-
-
-
-
-
+  useEffect(() => {
+    performAPICall();
+  }, []);
 
   return (
     <div>
-      <Header>
-        {/* TODO: CRIO_TASK_MODULE_PRODUCTS - Display search bar in the header for Products page */}
-
-      </Header>
+      <Header
+        hasHiddenAuthButtons={true}
+        children={{ viewSearchBar: true, callApi: debounceSearch }}
+      />
 
       {/* Search view for mobiles */}
       <TextField
@@ -147,18 +166,40 @@ const Products = () => {
         }}
         placeholder="Search for items/categories"
         name="search"
+        onChange={(e) => debounceSearch(e, 500)}
       />
-       <Grid container>
-         <Grid item className="product-grid">
-           <Box className="hero">
-             <p className="hero-heading">
-               India’s <span className="hero-highlight">FASTEST DELIVERY</span>{" "}
-               to your door step
-             </p>
-           </Box>
-         </Grid>
-       </Grid>
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
+      <Grid container>
+        <Grid item className="product-grid">
+          <Box className="hero">
+            <p className="hero-heading">
+              India’s <span className="hero-highlight">FASTEST DELIVERY</span>{" "}
+              to your door step
+            </p>
+          </Box>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2} sx={{ mt: 2, p: 1 }}>
+        {loading ? (
+          <Box className="loading">
+            <CircularProgress color="success" />
+            <Typography>Loading Products</Typography>
+          </Box>
+        ) : productsList.length !== 0 ? (
+          productsList.map((product, idx) => {
+            return (
+              <Grid item xs={6} md={3}>
+                <ProductCard product={product} key={idx} />
+              </Grid>
+            );
+          })
+        ) : (
+          <Box className="loading">
+            <SentimentDissatisfied />
+            <Typography>No Products Found</Typography>
+          </Box>
+        )}
+      </Grid>
       <Footer />
     </div>
   );

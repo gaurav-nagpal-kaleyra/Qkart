@@ -1,110 +1,113 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-<<<<<<< HEAD
-import { Avatar, Button, Stack, Typography } from "@mui/material";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import Search from "@mui/icons-material/Search";
+import { Avatar, Button, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import "./Header.css";
-import { useHistory, useLocation } from "react-router-dom";
 
-const Header = (hasHiddenAuthButtons) => {
+const Header = ({ children, hasHiddenAuthButtons }) => {
   const history = useHistory();
-  const location = useLocation();
-  
 
-  const HeaderForProductLogOut = () => {
-    return (
-      <Box className="header">
-        <Box className="header-title">
-          <img src="logo_light.svg" alt="QKart-icon"></img>
-        </Box>
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [username, setUserName] = useState(null);
 
-        <Stack direction="row" spacing={2}>
-          <Button
-            className="explore-button"
-            onClick={() => history.push("/login")}
-          >
-            Login
-          </Button>
-          <Button variant="contained" onClick={() => history.push("/register")}>
-            Register
-          </Button>
-        </Stack>
+  // once the page loads i.e first time check is performed whether user is logged in or not
+  useEffect(() => {
+    const name = localStorage.getItem("username");
+
+    if (name) {
+      setLoggedIn(true);
+      setUserName(name);
+    }
+  }, []);
+
+  return (
+    <Box className="header">
+      <Box className="header-title">
+        <img src="logo_light.svg" alt="QKart-icon"></img>
       </Box>
-    );
-  };
-  const HeaderForProductLogin = () => {
-    return (
-      <Box className="header">
-        <Box className="header-title">
-          <img src="logo_light.svg" alt="QKart-icon"></img>
+      {/* if children props are received then it means to show search bar no
+      matter user is logged in or not */}
+      {children && (
+        <Box className="search-desktop">
+          <OutlinedInput
+            id="outlined-adornment-search"
+            className="search"
+            onChange={(event) => {
+              children.callApi(event, 500);
+            }}
+            placeholder="Search for items/categories"
+            size="small"
+            endAdornment={
+              <InputAdornment position="end">
+                <Search style={{ color: "#00a278" }} />
+              </InputAdornment>
+            }
+          />
         </Box>
-
+      )}
+      {/* if the user is logged in then show logout button */}
+      {loggedIn && (
         <Stack direction="row" spacing={2}>
-          <img alt={localStorage.getItem("username")} src="./avatar.png" />
-          <p style={{ marginTop: "15px" }}>{localStorage.getItem("username")}</p>
+          <Avatar alt={username} src="avatar.png" />
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {username}
+          </div>
           <Button
-            variant="text"
+            className="button"
+            variant="contained"
             onClick={() => {
               localStorage.clear();
               window.location.reload();
             }}
           >
-            Logout
+            LOGOUT
           </Button>
         </Stack>
-      </Box>
-    );
-  };
-
-  const HeaderForLoginAndRegsiter = () => {
-    
-    return (
-      <Box className="header">
-        <Box className="header-title">
-          <img src="logo_light.svg" alt="QKart-icon"></img>
-=======
-import { Avatar, Button, Stack } from "@mui/material";
-import Box from "@mui/material/Box";
-import React from "react";
-import "./Header.css";
-
-const Header = ({ children, hasHiddenAuthButtons }) => {
-    return (
-      <Box className="header">
-        <Box className="header-title">
-            <img src="logo_light.svg" alt="QKart-icon"></img>
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
-        </Box>
+      )}
+      {/* if the user is logged out and hasHiddenAuthButtons is true i.e we are
+      on the product page with user logged out */}
+      {!loggedIn && hasHiddenAuthButtons && (
+        <Stack direction="row" spacing={2}>
+          <Button
+            className="button"
+            onClick={() => {
+              history.push("/login");
+            }}
+            variant="contained"
+          >
+            LOGIN
+          </Button>
+          <Button
+            className="button"
+            onClick={() => {
+              history.push("/register");
+            }}
+            variant="contained"
+          >
+            REGISTER
+          </Button>
+        </Stack>
+      )}
+      {/* if this attribute is passed false that means we are on the login or
+      register page */}
+      {!hasHiddenAuthButtons && (
         <Button
           className="explore-button"
           startIcon={<ArrowBackIcon />}
-<<<<<<< HEAD
-          // variant="text"
-          onClick={() => history.push("/")}
-        >
-          Back To Explore
-        </Button>
-      </Box>
-    );
-  };
-
- if(hasHiddenAuthButtons.hasHiddenAuthButtons){
-  return <HeaderForLoginAndRegsiter/>
- }
-
- else if(localStorage.getItem("username") !== null){
-  return <HeaderForProductLogin/>
- }else{
-  return <HeaderForProductLogOut/>
- }
-=======
           variant="text"
+          onClick={() => {
+            history.push("/");
+          }}
         >
           Back to explore
         </Button>
-      </Box>
-    );
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
+      )}
+    </Box>
+  );
 };
 
 export default Header;

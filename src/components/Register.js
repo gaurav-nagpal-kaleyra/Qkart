@@ -7,8 +7,7 @@ import { config } from "../App";
 import Footer from "./Footer";
 import Header from "./Header";
 import "./Register.css";
-<<<<<<< HEAD
-import { useHistory, Link,useLocation } from "react-router-dom";
+import { useHistory, Link, useLocation } from "react-router-dom";
 const Register = () => {
   const { enqueueSnackbar } = useSnackbar();
   const [username, setUsername] = useState("");
@@ -18,13 +17,6 @@ const Register = () => {
   const history = useHistory();
   const location = useLocation();
   // TODO: CRIO_TASK_MODULE_REGISTER - Implement the register function
-=======
-import { useHistory, Link } from "react-router-dom";
-
-const Register = () => {
-  const { enqueueSnackbar } = useSnackbar();
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
-
 
   /**
    * Definition for register handler
@@ -48,7 +40,6 @@ const Register = () => {
    *      "message": "Username is already taken"
    * }
    */
-<<<<<<< HEAD
   const register = async () => {
     const data = {
       username: username,
@@ -71,7 +62,7 @@ const Register = () => {
             autoHideDuration: 2000,
           });
           setLoading(false);
-          history.push("/login", { from: "Register" })
+          history.push("/login", { from: "Register" });
         })
         .catch((error) => {
           if (error.response) {
@@ -93,11 +84,6 @@ const Register = () => {
   };
 
   // TODO: CRIO_TASK_MODULE_REGISTER - Implement user input validation logic
-=======
-  const register = async (formData) => {
-  };
-
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
   /**
    * Validate the input values so that any bad or illegal values are not passed to the backend.
    *
@@ -107,7 +93,6 @@ const Register = () => {
    * @returns {boolean}
    *    Whether validation has passed or not
    *
-<<<<<<< HEAD
    **/
   const validateInput = (data) => {
     /**
@@ -161,38 +146,13 @@ const Register = () => {
     } else {
       return true;
     }
-=======
-   * Return false if any validation condition fails, otherwise return true.
-   * (NOTE: The error messages to be shown for each of these cases, are given with them)
-   * -    Check that username field is not an empty value - "Username is a required field"
-   * -    Check that username field is not less than 6 characters in length - "Username must be at least 6 characters"
-   * -    Check that password field is not an empty value - "Password is a required field"
-   * -    Check that password field is not less than 6 characters in length - "Password must be at least 6 characters"
-   * -    Check that confirmPassword field has the same value as password field - Passwords do not match
-   */
-  const validateInput = (data) => {
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-<<<<<<< HEAD
-      
-      minHeight="100vh"
-    >
-      <Header hasHiddenAuthButtons={true} />
+    <Box display="flex" flexDirection="column" minHeight="100vh">
+      <Header hasHiddenAuthButtons={false} />
       <Box className="content">
         <Stack spacing={1} className="form">
-=======
-      justifyContent="space-between"
-      minHeight="100vh"
-    >
-      <Header hasHiddenAuthButtons />
-      <Box className="content">
-        <Stack spacing={2} className="form">
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
           <h2 className="title">Register</h2>
           <TextField
             id="username"
@@ -202,12 +162,9 @@ const Register = () => {
             name="username"
             placeholder="Enter Username"
             fullWidth
-<<<<<<< HEAD
             onChange={(e) => {
               setUsername(e.target.value);
             }}
-=======
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
           />
           <TextField
             id="password"
@@ -218,12 +175,9 @@ const Register = () => {
             helperText="Password must be atleast 6 characters length"
             fullWidth
             placeholder="Enter a password with minimum 6 characters"
-<<<<<<< HEAD
             onChange={(e) => {
               setPassword(e.target.value);
             }}
-=======
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
           />
           <TextField
             id="confirmPassword"
@@ -232,7 +186,6 @@ const Register = () => {
             name="confirmPassword"
             type="password"
             fullWidth
-<<<<<<< HEAD
             onChange={(e) => {
               setCpassword(e.target.value);
             }}
@@ -246,14 +199,9 @@ const Register = () => {
           </Box>
           <p className="secondary-action">
             Already have an account?
-           <Link to="/login" className="link">
+            <Link to="/login" className="link">
               Login here
             </Link>
-=======
-          />
-          <p className="secondary-action">
-            Already have an account?{" "}
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
           </p>
         </Stack>
       </Box>
@@ -262,8 +210,4 @@ const Register = () => {
   );
 };
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
 export default Register;

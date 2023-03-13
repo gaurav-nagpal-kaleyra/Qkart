@@ -3,11 +3,7 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import React, { useState } from "react";
-<<<<<<< HEAD
 import { useHistory, Link, useLocation } from "react-router-dom";
-=======
-import { useHistory, Link } from "react-router-dom";
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
 import { config } from "../App";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -15,17 +11,13 @@ import "./Login.css";
 
 const Login = () => {
   const { enqueueSnackbar } = useSnackbar();
-<<<<<<< HEAD
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const location = useLocation();
-  
-  // TODO: CRIO_TASK_MODULE_LOGIN - Fetch the API response
-=======
 
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
+  // TODO: CRIO_TASK_MODULE_LOGIN - Fetch the API response
   /**
    * Perform the Login API call
    * @param {{ username: string, password: string }} formData
@@ -50,7 +42,6 @@ const Login = () => {
    * }
    *
    */
-<<<<<<< HEAD
   const login = async () => {
     // making post request with axios
     const formData = { username: username, password: password };
@@ -64,7 +55,7 @@ const Login = () => {
             variant: "success",
             autoHideDuration: 2000,
           });
-         
+
           persistLogin(res.data.token, res.data.username, res.data.balance);
           setLoading(false);
           history.push("/", { from: "Register" });
@@ -89,11 +80,6 @@ const Login = () => {
   };
 
   // TODO: CRIO_TASK_MODULE_LOGIN - Validate the input
-=======
-  const login = async (formData) => {
-  };
-
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
   /**
    * Validate the input values so that any bad or illegal values are not passed to the backend.
    *
@@ -109,7 +95,6 @@ const Login = () => {
    * -    Check that password field is not an empty value - "Password is a required field"
    */
   const validateInput = (data) => {
-<<<<<<< HEAD
     if (data.username === "") {
       enqueueSnackbar("Username is a required field", {
         variant: "warning",
@@ -128,10 +113,6 @@ const Login = () => {
   };
 
   // TODO: CRIO_TASK_MODULE_LOGIN - Persist user's login information
-=======
-  };
-
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
   /**
    * Store the login information so that it can be used to identify the user in subsequent API calls
    *
@@ -148,17 +129,11 @@ const Login = () => {
    * -    `balance` field in localStorage can be used to store the balance amount in the user's wallet
    */
   const persistLogin = (token, username, balance) => {
-<<<<<<< HEAD
-    
     localStorage.setItem("username", username);
-    localStorage.setItem("token",token);
+    localStorage.setItem("token", token);
     localStorage.setItem("balance", balance);
   };
-  
-=======
-  };
 
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
   return (
     <Box
       display="flex"
@@ -166,8 +141,7 @@ const Login = () => {
       justifyContent="space-between"
       minHeight="100vh"
     >
-<<<<<<< HEAD
-      <Header hasHiddenAuthButtons={true} />
+      <Header hasHiddenAuthButtons={false} />
 
       <Box className="content">
         <Stack spacing={2} className="form">
@@ -178,7 +152,6 @@ const Login = () => {
             onChange={(e) => {
               setUsername(e.target.value);
             }}
-            
           />
           <TextField
             label="password"
@@ -187,7 +160,6 @@ const Login = () => {
             onChange={(e) => {
               setPassword(e.target.value);
             }}
-            
           />
           <Button variant="contained" className="button" onClick={login}>
             Login to Qkart
@@ -201,11 +173,6 @@ const Login = () => {
               Register Now
             </Link>
           </p>
-=======
-      <Header hasHiddenAuthButtons />
-      <Box className="content">
-        <Stack spacing={2} className="form">
->>>>>>> 87cebf390493aafc619e78b8de78058180be64ca
         </Stack>
       </Box>
       <Footer />
