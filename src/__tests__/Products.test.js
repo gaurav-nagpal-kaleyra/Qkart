@@ -69,10 +69,6 @@ describe("Products Page - Header", () => {
         <Products />
       </Router>
     </SnackbarProvider>
-<<<<<<< HEAD
-=======
-    
->>>>>>> e7ef4956fa0d9eed00ff1db4b4fed8bbb6626109
   );
 
   beforeEach(async () => {

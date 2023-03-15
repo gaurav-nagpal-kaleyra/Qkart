@@ -15,7 +15,7 @@ const Register = () => {
   const [cpassword, setCpassword] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const location = useLocation();
+
   // TODO: CRIO_TASK_MODULE_REGISTER - Implement the register function
 
   /**

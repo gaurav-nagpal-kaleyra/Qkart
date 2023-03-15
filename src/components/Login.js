@@ -3,11 +3,7 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import React, { useState } from "react";
-<<<<<<< HEAD
 import { useHistory, Link, useLocation } from "react-router-dom";
-=======
-import { useHistory, Link } from "react-router-dom";
->>>>>>> e7ef4956fa0d9eed00ff1db4b4fed8bbb6626109
 import { config } from "../App";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -15,17 +11,12 @@ import "./Login.css";
 
 const Login = () => {
   const { enqueueSnackbar } = useSnackbar();
-<<<<<<< HEAD
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const location = useLocation();
 
   // TODO: CRIO_TASK_MODULE_LOGIN - Fetch the API response
-=======
-
->>>>>>> e7ef4956fa0d9eed00ff1db4b4fed8bbb6626109
   /**
    * Perform the Login API call
    * @param {{ username: string, password: string }} formData

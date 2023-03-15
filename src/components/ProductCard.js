@@ -8,13 +8,17 @@ import {
   Rating,
   Typography,
 } from "@mui/material";
+
 import React from "react";
 import "./ProductCard.css";
 
 const ProductCard = ({ product, handleAddToCart }) => {
+  const token = localStorage.getItem("token")
+    ? localStorage.getItem("token")
+    : null;
   return (
     <Card className="card">
-      <img src={product.image} style={{ height: "300px" }} />
+      <img src={product.image} style={{ height: "250px" }} />
       <CardContent>
         <Typography>{product.name}</Typography>
         <Typography sx={{ fontWeight: "bold" }}>${product.cost}</Typography>
@@ -25,6 +29,9 @@ const ProductCard = ({ product, handleAddToCart }) => {
           variant="contained"
           className="card-button"
           sx={{ width: "100%" }}
+          onClick={() => {
+            handleAddToCart(token, [], [], product._id, undefined, "");
+          }}
         >
           <AddShoppingCartOutlined sx={{ marginRight: "10px" }} />
           ADD TO CART
